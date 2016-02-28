@@ -131,10 +131,3 @@ def dissolve_ragdoll(userid, current_type):
 
     # Dissolve the ragdoll
     dissolver_entity.dissolve('ragdoll_{1}'.format(userid))
-
-
-@Event('player_say')
-def kill_player(game_event):
-    """Kill the player to create the ragdoll."""
-    player = Player(index_from_userid(game_event['userid']))
-    player.take_damage(player.health * 2)

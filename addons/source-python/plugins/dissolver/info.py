@@ -18,7 +18,7 @@ from plugins.info import PluginInfo
 info = PluginInfo()
 info.name = 'Dissolver'
 info.author = 'Satoon101'
-info.version = '1.0'
+info.version = '1.1'
 info.basename = 'dissolver'
 info.variable = info.basename + '_version'
 info.url = ''
