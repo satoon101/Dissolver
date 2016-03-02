@@ -114,7 +114,7 @@ def dissolve_ragdoll(userid, current_type):
         return
 
     # Set the target name for the player's ragdoll
-    entity.target_name = 'ragdoll_{1}'.format(userid)
+    entity.target_name = 'ragdoll_{0}'.format(userid)
 
     # Get the dissolver entity
     dissolver_entity = Entity.find_or_create('env_entity_dissolver')
@@ -130,4 +130,4 @@ def dissolve_ragdoll(userid, current_type):
     dissolver_entity.dissolve_type = current_type
 
     # Dissolve the ragdoll
-    dissolver_entity.dissolve('ragdoll_{1}'.format(userid))
+    dissolver_entity.dissolve('ragdoll_{0}'.format(userid))
