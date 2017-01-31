@@ -5,21 +5,11 @@
 # =============================================================================
 # >> IMPORTS
 # =============================================================================
-# Source.Python Imports
-#   Cvars
-from cvars.public import PublicConVar
-#   Plugins
-from plugins.info import PluginInfo
+# Source.Python
+from plugins.manager import plugin_manager
 
 
 # =============================================================================
 # >> PLUGIN INFO
 # =============================================================================
-info = PluginInfo()
-info.name = 'Dissolver'
-info.author = 'Satoon101'
-info.version = '1.1b'
-info.basename = 'dissolver'
-info.variable = info.basename + '_version'
-info.url = ''
-info.convar = PublicConVar(info.variable, info.version, info.name + ' Version')
+info = plugin_manager.get_plugin_info(__name__)

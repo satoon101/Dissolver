@@ -5,31 +5,23 @@
 # =============================================================================
 # >> IMPORTS
 # =============================================================================
-# Python Imports
-#   Random
+# Python
 from random import randrange
-#   Warnings
 from warnings import warn
 
-# Source.Python Imports
-#   Config
+# Source.Python
 from config.manager import ConfigManager
-#   Entities
 from entities.constants import DissolveType
 from entities.constants import INVALID_ENTITY_INTHANDLE
 from entities.entity import Entity
 from entities.helpers import index_from_inthandle
-#   Events
 from events import Event
-#   Listeners
 from listeners.tick import Delay
-#   Players
 from players.entity import Player
 from players.helpers import index_from_userid
-#   Translations
 from translations.strings import LangStrings
 
-# Script Imports
+# Plugin
 from .info import info
 
 
@@ -40,14 +32,14 @@ from .info import info
 _num_dissolve_types = len(DissolveType)
 
 # Get the configuration strings
-_config_strings = LangStrings(info.basename)
+_config_strings = LangStrings(info.name)
 
 
 # =============================================================================
 # >> CONFIGURATION
 # =============================================================================
 # Create the cfg file
-with ConfigManager(info.basename, 'dissolver_') as _config:
+with ConfigManager(info.name, 'dissolver_') as _config:
 
     # Create the dissolver type cvar
     dissolver_type = _config.cvar('type', 0, _config_strings['Type'])
@@ -93,8 +85,10 @@ def dissolve_player_ragdoll(game_event):
 
     # Delay the dissolving
     Delay(
-        max(0, dissolver_delay.get_int()),
-        dissolve_ragdoll, game_event['userid'], current_type)
+        delay=max(0, dissolver_delay.get_int()),
+        callback=dissolve_ragdoll,
+        args=(game_event['userid'], current_type),
+    )
 
 
 # =============================================================================
