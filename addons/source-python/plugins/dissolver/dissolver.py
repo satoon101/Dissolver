@@ -18,7 +18,6 @@ from entities.helpers import index_from_inthandle
 from events import Event
 from listeners.tick import Delay
 from players.entity import Player
-from players.helpers import index_from_userid
 from translations.strings import LangStrings
 
 # Plugin
@@ -97,7 +96,7 @@ def dissolve_player_ragdoll(game_event):
 def dissolve_ragdoll(userid, current_type):
     """Dissolve/remove the player's ragdoll."""
     # Get the ragdoll entity
-    inthandle = Player(index_from_userid(userid)).ragdoll
+    inthandle = Player.from_userid(userid).ragdoll
     if inthandle == INVALID_ENTITY_INTHANDLE:
         return
     entity = Entity(index_from_inthandle(inthandle))
