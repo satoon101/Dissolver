@@ -7,7 +7,7 @@ This plugin removes or dissolves player ragdolls when they die.
 
 <br>
 ## Installation
-To install, simply download the current release from its [release thread](...) and install it into the main directory for your server.
+To install, simply download the current release from its [release thread](https://forums.sourcepython.com/viewtopic.php?t=1101) and install it into the main directory for your server.
 
 Once you have installed Dissolver on your server, simply add the following to your autoexec.cfg file:
 ```
