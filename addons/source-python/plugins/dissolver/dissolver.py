@@ -47,17 +47,26 @@ with ConfigManager(info.name, 'dissolver_') as _config:
     for _name in DissolveType.__members__:
 
         # Add the current dissolver type to the list of options
-        dissolver_type.Options.append('{0} = {1}'.format(
-            getattr(DissolveType, _name).real, _name))
+        dissolver_type.Options.append(
+            '{value} = {text}'.format(
+                value=getattr(DissolveType, _name).real,
+                text=_name
+            )
+        )
 
     # Add random and remove to the list of options
     for _num, _option in enumerate(('RANDOM', 'REMOVE')):
-        dissolver_type.Options.append('{0} = {1}'.format(
-            _num_dissolve_types + _num, _option))
+        dissolver_type.Options.append(
+            '{value} = {text}'.format(
+                value=_num_dissolve_types + _num,
+                text=_option
+            )
+        )
 
     # Create the dissolver magnitude cvar
     dissolver_magnitude = _config.cvar(
-        'magnitude', 2, _config_strings['Magnitude'])
+        'magnitude', 2, _config_strings['Magnitude']
+    )
 
     # Create the delay cvar
     dissolver_delay = _config.cvar('delay', 0, _config_strings['Delay'])
@@ -67,7 +76,7 @@ with ConfigManager(info.name, 'dissolver_') as _config:
 # >> GAME EVENTS
 # =============================================================================
 @Event('player_death')
-def dissolve_player_ragdoll(game_event):
+def _dissolve_player_ragdoll(game_event):
     """Dissolve/remove the player's ragdoll on death."""
     # Get the type of dissolver to use
     current_type = dissolver_type.get_int()
@@ -76,8 +85,12 @@ def dissolve_player_ragdoll(game_event):
     if current_type < 0 or current_type > _num_dissolve_types + 2:
 
         # Raise a warning
-        warn('Invalid value for {0} cvar "{1}".'.format(
-            dissolver_type.name, current_type))
+        warn(
+            'Invalid value for {name} cvar "{dissolve_type}".'.format(
+                name=dissolver_type.name,
+                dissolve_type=current_type
+            )
+        )
 
         # Use the remove setting
         current_type = _num_dissolve_types + 2
@@ -85,7 +98,7 @@ def dissolve_player_ragdoll(game_event):
     # Delay the dissolving
     Delay(
         delay=max(0, dissolver_delay.get_int()),
-        callback=dissolve_ragdoll,
+        callback=_dissolve_ragdoll,
         args=(game_event['userid'], current_type),
     )
 
@@ -93,7 +106,7 @@ def dissolve_player_ragdoll(game_event):
 # =============================================================================
 # >> HELPER FUNCTIONS
 # =============================================================================
-def dissolve_ragdoll(userid, current_type):
+def _dissolve_ragdoll(userid, current_type):
     """Dissolve/remove the player's ragdoll."""
     # Get the ragdoll entity
     inthandle = Player.from_userid(userid).ragdoll
@@ -107,7 +120,7 @@ def dissolve_ragdoll(userid, current_type):
         return
 
     # Set the target name for the player's ragdoll
-    entity.target_name = 'ragdoll_{0}'.format(userid)
+    entity.target_name = 'ragdoll_{userid}'.format(userid=userid)
 
     # Get the dissolver entity
     dissolver_entity = Entity.find_or_create('env_entity_dissolver')
@@ -123,4 +136,4 @@ def dissolve_ragdoll(userid, current_type):
     dissolver_entity.dissolve_type = current_type
 
     # Dissolve the ragdoll
-    dissolver_entity.dissolve('ragdoll_{0}'.format(userid))
+    dissolver_entity.dissolve('ragdoll_{userid}'.format(userid=userid))
