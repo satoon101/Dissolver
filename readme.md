@@ -11,7 +11,7 @@ To install, simply download the current release from its [release thread](...) a
 
 Once you have installed Dissolver on your server, simply add the following to your autoexec.cfg file:
 ```
-sp load dissolver
+sp plugin load dissolver
 ```
 
 <br>
@@ -35,4 +35,9 @@ Edit that file to your liking.  The current default configuration file looks lik
 // Default Value: 2
 // The magnitude to use when dissolving.
    dissolver_magnitude 2
+
+
+// Default Value: 0
+// The amount of time (in seconds) to wait before dissolving.
+   dissolver_delay 0
 ```
