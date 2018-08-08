@@ -42,24 +42,17 @@ with ConfigManager(info.name, 'dissolver_') as _config:
     dissolver_type = _config.cvar('type', 0, CONFIG_STRINGS['Type'])
 
     # Loop through all dissolver types
-    for _name in DissolveType.__members__:
+    for _obj in DissolveType:
 
         # Add the current dissolver type to the list of options
-        dissolver_type.Options.append(
-            '{value} = {text}'.format(
-                value=getattr(DissolveType, _name).real,
-                text=_name
-            )
-        )
+        dissolver_type.Options.append(f'{_obj.real} = {_obj.name}')
 
     # Add random and remove to the list of options
-    for _num, _option in enumerate(('RANDOM', 'REMOVE')):
-        dissolver_type.Options.append(
-            '{value} = {text}'.format(
-                value=NUM_DISSOLVE_TYPES + _num,
-                text=_option
-            )
-        )
+    for _num, _option in enumerate(
+        ('RANDOM', 'REMOVE'),
+        start=NUM_DISSOLVE_TYPES + 1
+    ):
+        dissolver_type.Options.append(f'{_num} = {_option}')
 
     # Create the dissolver magnitude cvar
     dissolver_magnitude = _config.cvar(
