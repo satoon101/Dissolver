@@ -18,14 +18,17 @@ from players.entity import Player
 
 # Plugin
 from .config import (
-    NUM_DISSOLVE_TYPES, dissolver_delay, dissolver_magnitude, dissolver_type,
+    NUM_DISSOLVE_TYPES,
+    dissolver_delay,
+    dissolver_magnitude,
+    dissolver_type,
 )
 
 
 # =============================================================================
 # >> GAME EVENTS
 # =============================================================================
-@Event('player_death')
+@Event("player_death")
 def _dissolve_player_ragdoll(game_event):
     """Dissolve/remove the player's ragdoll on death."""
     # Get the type of dissolver to use
@@ -35,12 +38,15 @@ def _dissolve_player_ragdoll(game_event):
     if current_type < 0 or current_type > NUM_DISSOLVE_TYPES + 2:
 
         # Raise a warning
-        warn(f'Invalid value for {dissolver_type.name} cvar "{current_type}".')
+        warn(
+            f'Invalid value for {dissolver_type.name} cvar "{current_type}".',
+            stacklevel=2,
+        )
 
         # Use the remove setting
         current_type = NUM_DISSOLVE_TYPES + 2
 
-    player = Player.from_userid(game_event['userid'])
+    player = Player.from_userid(game_event["userid"])
 
     # Delay the dissolving
     Delay(
@@ -66,10 +72,10 @@ def _dissolve_ragdoll(inthandle, current_type):
         return
 
     # Set the target name for the player's ragdoll
-    entity.target_name = f'ragdoll_{inthandle}'
+    entity.target_name = f"ragdoll_{inthandle}"
 
     # Get the dissolver entity
-    dissolver_entity = Entity.find_or_create('env_entity_dissolver')
+    dissolver_entity = Entity.find_or_create("env_entity_dissolver")
 
     # Should a random dissolve type be chosen?
     if current_type == NUM_DISSOLVE_TYPES + 1:
@@ -82,4 +88,4 @@ def _dissolve_ragdoll(inthandle, current_type):
     dissolver_entity.dissolve_type = current_type
 
     # Dissolve the ragdoll
-    dissolver_entity.dissolve(f'ragdoll_{inthandle}')
+    dissolver_entity.dissolve(f"ragdoll_{inthandle}")
