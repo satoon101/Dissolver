@@ -32,7 +32,7 @@ from .config import (
 def _dissolve_player_ragdoll(game_event):
     """Dissolve/remove the player's ragdoll on death."""
     # Get the type of dissolver to use
-    current_type = dissolver_type.get_int()
+    current_type = int(dissolver_type)
 
     # Is the type valid?
     if current_type < 0 or current_type > NUM_DISSOLVE_TYPES + 2:
@@ -50,7 +50,7 @@ def _dissolve_player_ragdoll(game_event):
 
     # Delay the dissolving
     Delay(
-        delay=max(0, dissolver_delay.get_int()),
+        delay=max(0, int(dissolver_delay)),
         callback=_dissolve_ragdoll,
         args=(player.ragdoll, current_type),
     )
@@ -82,7 +82,7 @@ def _dissolve_ragdoll(inthandle, current_type):
         current_type = randrange(NUM_DISSOLVE_TYPES)
 
     # Set the magnitude
-    dissolver_entity.magnitude = dissolver_magnitude.get_int()
+    dissolver_entity.magnitude = int(dissolver_magnitude)
 
     # Set the dissolve type
     dissolver_entity.dissolve_type = current_type
